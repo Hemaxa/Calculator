@@ -1,10 +1,11 @@
-// app/src/main/java/com/example/calculator/MainActivity.kt
+//класс, отвечающий за логику приложения
+
 package com.example.calculator
 
-import android.content.Context
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import android.content.Context //библиотека для работы с SharedPreferences
+import android.os.Bundle //класс передачи данных между компонентами
+import androidx.activity.ComponentActivity //класс активности в Android
+import androidx.activity.compose.setContent //главная функция, которая "включает" Compose
 import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +15,7 @@ import com.example.calculator.ui.theme.CalculatorThemeName
 
 class MainActivity : ComponentActivity() {
 
+    //все поля класса, необходимые для SharedPreferences
     companion object {
         private const val PREFS_NAME = "CalculatorPrefs"
         private const val KEY_CURRENT_INPUT = "currentInput"
@@ -23,7 +25,10 @@ class MainActivity : ComponentActivity() {
         private const val KEY_CURRENT_THEME = "currentTheme"
     }
 
+    //инициализация viewModel, которая автоматически создает (или загружает) CalculatorViewModel
     private val viewModel: CalculatorViewModel by viewModels()
+
+    //предварительное объявление переменных для UI
     private var currentTheme by mutableStateOf(CalculatorThemeName.Blue)
 
     override fun onCreate(savedInstanceState: Bundle?) {
