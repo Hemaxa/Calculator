@@ -1,94 +1,159 @@
+//класс, отвечающий за логику приложения
+
 package com.example.calculator
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.HorizontalScrollView
-import android.widget.TextView
-import androidx.activity.viewModels // Импортируем делегат
-import androidx.lifecycle.Observer // Импортируем Observer
-import java.text.DecimalFormat
-import kotlin.math.pow
-import kotlin.math.sqrt
+import android.content.Context //библиотека для работы с SharedPreferences
+import androidx.appcompat.app.AppCompatActivity //класс активности в Android
+import android.os.Bundle //класс передачи данных между компонентами
+import android.view.Menu //класс меню
+import android.view.MenuItem //класс элементов меню
+import android.view.View //класс пользовательских интерфейсов
+import android.widget.Button //класс кнопки
+import android.widget.HorizontalScrollView //класс горизонтальной прокрутки (для поля ввода)
+import android.widget.TextView //текстовый ввод
+import androidx.activity.viewModels //сохранение настроек в активности
+import androidx.lifecycle.Observer //класс обновления элементов интерфейса
+import java.text.DecimalFormat //форматирование чисел
+import kotlin.math.pow //возведение в степень
+import kotlin.math.sqrt //извлечение корня
 
 class MainActivity : AppCompatActivity() {
 
-    // Ключи для SharedPreferences
+    //все поля класса, необходимые для SharedPreferences
     companion object {
         private const val PREFS_NAME = "CalculatorPrefs"
         private const val KEY_CURRENT_INPUT = "currentInput"
         private const val KEY_FIRST_OPERAND = "firstOperand"
         private const val KEY_PENDING_OPERATION = "pendingOperation"
         private const val KEY_WAITING_FOR_SECOND = "waitingForSecondOperand"
+        private const val KEY_CURRENT_THEME = "currentTheme"
     }
 
+    //предварительное объявление переменных для UI
     private lateinit var tvResult: TextView
-    private lateinit var scrollView: HorizontalScrollView // Для прокрутки (Пункт 4)
+    private lateinit var scrollView: HorizontalScrollView
 
-    // Инициализируем ViewModel.
-    // 'by viewModels()' автоматически создает и сохраняет ViewModel
+    //инициализация ViewModel, которая автоматически создает (или загружает) CalculatorViewModel
     private val viewModel: CalculatorViewModel by viewModels()
 
+    //метод onCreate вызывается при создании экрана
     override fun onCreate(savedInstanceState: Bundle?) {
+        //применение сохраненной темы
+        applySavedTheme()
+
+        //сборка шаблона окна
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //связывание созданных элементов с их предварительными объявлениями
         tvResult = findViewById(R.id.tvResult)
-        scrollView = findViewById(R.id.tvResultScrollView) // (Пункт 4)
+        scrollView = findViewById(R.id.tvResultScrollView)
 
-        // Загружаем сохраненное состояние, если оно есть
+        //if отработает, если это первый запуск приложения (проверка на поворот экрана)
         if (!viewModel.stateRestored) {
             restoreState()
             viewModel.stateRestored = true
         }
 
+        //логика кнопок
         setupButtonClickListeners()
 
-        // *** САМОЕ ВАЖНОЕ ***
-        // Мы "подписываемся" на изменения в viewModel.currentInput.
-        // Как только .value изменится, этот код выполнится
-        // и обновит tvResult.text.
+        //сохранение ввода (currentInput) каждый раз, когда он меняется
         viewModel.currentInput.observe(this, Observer { newText ->
             tvResult.text = newText
-            // (Пункт 4) Прокручиваем в конец при обновлении
-            scrollView.post { scrollView.fullScroll(View.FOCUS_RIGHT) }
+            scrollView.post { scrollView.fullScroll(View.FOCUS_RIGHT) } //прокрутка максимально вправо
         })
     }
 
-    // Сохраняем состояние при остановке приложения
+    //метод onStop вызывается при сворачивании приложения
     override fun onStop() {
         super.onStop()
         saveState()
     }
 
-    private fun saveState() {
+    //метод применения темы
+    private fun applySavedTheme() {
+        //выгрузка всех настроек в prefs
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+        //установка темы (по умолчанию применяется голубая тема)
+        val themeName = prefs.getString(KEY_CURRENT_THEME, "Blue")
+
+        //обработка различных тем
+        when (themeName) {
+            "Orange" -> setTheme(R.style.Theme_Calculator_PastelOrange)
+            "Pink" -> setTheme(R.style.Theme_Calculator_PastelPink)
+            "Blue" -> setTheme(R.style.Theme_Calculator)
+        }
+    }
+
+    //метод сборки меню с темами
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    //метод обработки нажатия на кнопки тем в меню
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+
+        //when по всем темам
+        when (item.itemId)
+        {
+            R.id.theme_blue -> {
+                prefs.putString(KEY_CURRENT_THEME, "Blue")
+            }
+            R.id.theme_orange -> {
+                prefs.putString(KEY_CURRENT_THEME, "Orange")
+            }
+            R.id.theme_pink -> {
+                prefs.putString(KEY_CURRENT_THEME, "Pink")
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+        prefs.apply() //сохранение выбора
+        recreate() //пересоздание Activity, чтобы применить тему
+        return true
+    }
+
+    //метод сохранения настроек в SharedPreferences (вызывается в onStop)
+    private fun saveState() {
+        //выгрузка текущих настроек в prefs
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+
+        //запись настроек
         prefs.putString(KEY_CURRENT_INPUT, viewModel.currentInput.value)
-        // firstOperand может быть null, поэтому сохраняем его как String
         prefs.putString(KEY_FIRST_OPERAND, viewModel.firstOperand?.toString())
         prefs.putString(KEY_PENDING_OPERATION, viewModel.pendingOperation)
         prefs.putBoolean(KEY_WAITING_FOR_SECOND, viewModel.waitingForSecondOperand)
+
+        //сохранение
         prefs.apply()
     }
 
+    //метод выгрузки настроек из SharedPreferences (вызывается в onCreate)
     private fun restoreState() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+        //получение введенной строки
         viewModel.currentInput.value = prefs.getString(KEY_CURRENT_INPUT, "0")
 
+        //проверка, что строка не пустая
         val savedOperand = prefs.getString(KEY_FIRST_OPERAND, null)
+
+        //перевод из string в double
         if (savedOperand != null) {
             viewModel.firstOperand = savedOperand.toDoubleOrNull()
-        } else {
+        }
+        else {
             viewModel.firstOperand = null
         }
 
+        //чтение операции и состояния ввода второго операнда
         viewModel.pendingOperation = prefs.getString(KEY_PENDING_OPERATION, null)
         viewModel.waitingForSecondOperand = prefs.getBoolean(KEY_WAITING_FOR_SECOND, false)
     }
-
 
     private fun setupButtonClickListeners() {
         val buttonIds = listOf(
