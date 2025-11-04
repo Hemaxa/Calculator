@@ -1,19 +1,59 @@
+# --- Системные файлы macOS ---
+# Это "мусор", который macOS создает в папках
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# --- IntelliJ / Android Studio ---
+# Это папка с настройками твоей IDE.
+# Файлы workspace и tasks - это твои личные настройки окон и задач.
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Сгенерированные файлы библиотек
+.idea/libraries/
+
+# Сгенерированные настройки Gradle для IDE
+.idea/gradle.xml
+
+# Файлы модулей IntelliJ (они генерируются из Gradle)
+*.iml
+
+# --- Gradle ---
+# Вся папка 'build' содержит скомпилированное приложение (APK, .class файлы).
+# Она должна всегда генерироваться заново, а не храниться в Git.
+build/
+
+# Локальный кэш Gradle. Он хранит загруженные зависимости и прочее.
+.gradle/
+
+# --- Локальные свойства ---
+# КРИТИЧЕСКИ ВАЖНО! Этот файл содержит твой локальный путь к Android SDK
+# и, в будущем, может содержать секретные ключи API.
+# Его НИКОГДА нельзя отправлять в репозиторий.
+local.properties
+
+# --- Файлы логов и сборки ---
+# Логи демона Gradle
+gradle-daemon-*.log
+
+# Прочие логи и файлы
+*.log
+captures.txt
+release.properties
+
+# --- Kotlin / Java ---
+# Скомпилированные .class файлы
 *.class
 
+# Исполняемые архивы (если они не лежат в /libs намеренно)
 *.jar
 *.war
 *.ear
-
-.idea/
-*.iml
-
-out/
-build/
-
-*.log
-
-gradle.properties
-Local.properties
-
-gradle/
-.gradle/
+*.kexe
