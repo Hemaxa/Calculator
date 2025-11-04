@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <attr name="calculatorBackgroundColor" format="color" />
-    <attr name="calculatorTextColor" format="color" />
-    <attr name="buttonBackground" format="reference" />
-    <attr name="operatorButtonBackground" format="reference" />
-    <attr name="specialButtonBackground" format="reference" />
-</resources>
