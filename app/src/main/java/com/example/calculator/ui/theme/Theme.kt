@@ -1,4 +1,5 @@
-// app/src/main/java/com/example/calculator/ui/theme/Theme.kt
+//файл тем приложения
+
 package com.example.calculator.ui.theme
 
 import android.content.res.Configuration
@@ -16,7 +17,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
-// --- 1. Определение пользовательских атрибутов темы ---
+//атрибуты темы
 data class CalculatorColors(
     val background: Color,
     val text: Color,
@@ -31,7 +32,7 @@ data class CalculatorShapes(
     val specialButton: Shape
 )
 
-// --- 2. Определение цветовых схем для каждой темы ---
+//цветовые схемы для каждой темы
 private val LightBlueColorScheme = CalculatorColors(
     background = md_theme_light_blue_background,
     text = md_theme_light_blue_text,
@@ -77,20 +78,18 @@ private val DarkPinkColorScheme = CalculatorColors(
     specialButton = md_theme_dark_pink_special
 )
 
-// --- 3. Провайдеры CompositionLocal ---
 val LocalCalculatorColors = staticCompositionLocalOf { LightBlueColorScheme }
 val LocalCalculatorShapes = staticCompositionLocalOf {
     CalculatorShapes(CircleShape, CircleShape, CircleShape)
 }
 
-// --- 4. Enum для выбора темы ---
 enum class CalculatorThemeName {
     Blue, Orange, Pink
 }
 
-// --- 5. Главная Composable-функция темы ---
+//главная Composable-функция темы
 @Composable
-fun CalculatorAppTheme( // Переименовали из CalculatorTheme
+fun CalculatorAppTheme(
     themeName: CalculatorThemeName = CalculatorThemeName.Blue,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
@@ -131,7 +130,7 @@ fun CalculatorAppTheme( // Переименовали из CalculatorTheme
     }
 }
 
-// --- 6. Объект для легкого доступа к теме ---
+//объект для легкого доступа к теме
 object CalculatorTheme {
     val colors: CalculatorColors
         @Composable

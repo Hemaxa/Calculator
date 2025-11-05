@@ -1,4 +1,5 @@
-// app/src/main/java/com/example/calculator/CalculatorScreen.kt
+//интерфейс окна калькулятора
+
 package com.example.calculator
 
 import android.content.res.Configuration
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.theme.CalculatorTheme
 import com.example.calculator.ui.theme.CalculatorThemeName
 
+//CalculatorScreen - главный контейнер для всего окна калькулятора
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorScreen(
@@ -59,7 +61,7 @@ fun CalculatorScreen(
     }
 }
 
-// --- ПОРТРЕТНЫЙ РЕЖИМ ---
+//вертикалььный режим
 @Composable
 fun PortraitLayout(viewModel: CalculatorViewModel, displayText: String) {
     Column(
@@ -67,61 +69,58 @@ fun PortraitLayout(viewModel: CalculatorViewModel, displayText: String) {
             .fillMaxSize()
             .padding(horizontal = 8.dp)
     ) {
-        // Дисплей
+        //дисплей
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f) // Занимает все свободное место
+                .weight(1f)
                 .padding(horizontal = 16.dp, vertical = 24.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             DisplayTextView(text = displayText, fontSize = 80.sp)
         }
-        // Кнопки
+        //кнопки
         ButtonGrid(
             viewModel = viewModel,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
             buttonSize = 80.dp,
-            fontSize = 32.sp // Размер шрифта для портретного режима
+            fontSize = 32.sp
         )
     }
 }
 
-// --- ЛАНДШАФТНЫЙ РЕЖИМ (ИЗМЕНЕН) ---
+//горизонтальный режим
 @Composable
 fun LandscapeLayout(viewModel: CalculatorViewModel, displayText: String) {
-    // Используем Column, а не Row
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
     ) {
-        // Дисплей (занимает 40% высоты)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.4f) // 40%
+                .weight(0.3f)
                 .padding(16.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             DisplayTextView(text = displayText, fontSize = 60.sp)
         }
-        // Кнопки (занимают 60% высоты и растягиваются)
         ButtonGrid(
             viewModel = viewModel,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.6f), // 60%
-            buttonSize = Dp.Unspecified, // Размер не фиксирован
-            fontSize = 28.sp, // Уменьшенный размер шрифта
-            fillHeight = true // Говорим кнопкам заполнить пространство
+                .weight(0.7f),
+            buttonSize = Dp.Unspecified,
+            fontSize = 26.sp,
+            fillHeight = true
         )
     }
 }
 
-// --- СЕТКА КНОПОК (ИЗМЕНЕНА) ---
+//сетка для кнопок
 @Composable
 fun ButtonGrid(
     viewModel: CalculatorViewModel,
@@ -141,7 +140,6 @@ fun ButtonGrid(
     Column(
         modifier = modifier.then(if (fillHeight) Modifier.fillMaxHeight() else Modifier),
         horizontalAlignment = Alignment.CenterHorizontally,
-        // Распределяем строки кнопок равномерно по высоте
         verticalArrangement = if (fillHeight) Arrangement.SpaceEvenly else Arrangement.spacedBy(8.dp)
     ) {
         buttons.chunked(4).forEach { rowButtons ->
@@ -169,12 +167,11 @@ fun ButtonGrid(
                         }
                     }
 
-                    // Определяем модификатор для кнопки
                     val buttonModifier = if (fillHeight) {
                         Modifier
-                            .weight(1f) // Кнопки растягиваются
+                            .weight(1f)
                             .fillMaxHeight()
-                            .padding(vertical = 4.dp) // Небольшой отступ
+                            .padding(vertical = 4.dp)
                     } else {
                         Modifier.size(buttonSize)
                     }
@@ -185,7 +182,7 @@ fun ButtonGrid(
                         backgroundColor = color,
                         shape = shape,
                         modifier = buttonModifier,
-                        baseFontSize = fontSize // Передаем базовый размер
+                        baseFontSize = fontSize
                     )
                 }
             }
@@ -193,7 +190,7 @@ fun ButtonGrid(
     }
 }
 
-// --- ДИСПЛЕЙ (без изменений) ---
+//дисплей
 @Composable
 fun DisplayTextView(text: String, fontSize: androidx.compose.ui.unit.TextUnit = 80.sp) {
     val scrollState = rememberScrollState()
@@ -215,7 +212,7 @@ fun DisplayTextView(text: String, fontSize: androidx.compose.ui.unit.TextUnit = 
     )
 }
 
-// --- КНОПКА (ИЗМЕНЕНА) ---
+//кнопка
 @Composable
 fun CalculatorButton(
     text: String,
@@ -223,9 +220,8 @@ fun CalculatorButton(
     backgroundColor: Color,
     shape: Shape,
     modifier: Modifier = Modifier,
-    baseFontSize: TextUnit = 32.sp // Принимаем базовый размер
+    baseFontSize: TextUnit = 32.sp
 ) {
-    // Уменьшаем шрифт, если текст длинный (решает проблему "AC")
     val fontSize = if (text.length > 1) (baseFontSize.value * 0.85f).sp else baseFontSize
 
     Button(
@@ -241,13 +237,13 @@ fun CalculatorButton(
     ) {
         Text(
             text = text,
-            fontSize = fontSize, // Используем вычисленный размер
+            fontSize = fontSize,
             fontWeight = FontWeight.Light
         )
     }
 }
 
-// --- TOP APP BAR (без изменений) ---
+//панель названия программы
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorTopAppBar(
