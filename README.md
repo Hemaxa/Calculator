@@ -1,30 +1,31 @@
-# Калькулятор
+# Calculator
 
-Простой калькулятор для Android, созданный с использованием Kotlin и Jetpack Compose.
+A simple calculator for Android built using Kotlin and Jetpack Compose.
 
-## Светлая тема
+## Light Theme
 
 <img width="2560" height="1440" alt="1" src="https://github.com/user-attachments/assets/bb48221f-9514-4192-962b-6d2725382aaf" />
 
-## Темная тема
+## Dark Theme
 
 <img width="2560" height="1440" alt="2" src="https://github.com/user-attachments/assets/6b5392ee-571e-40ff-a76a-c7b0098455eb" />
 
-## Возможности
+## Features
 
-- **Основные операции:** сложение, вычитание, умножение и деление.  
-- **Дополнительные функции:** извлечение квадратного корня (√), возведение в степень (xʸ) и смена знака (±).  
-- **Адаптивный интерфейс:** автоматически подстраивает раскладку кнопок для портретного и ландшафтного режимов.  
-- **Темы:** поддерживает три цветовые схемы (Синяя, Оранжевая, Розовая), которые можно переключать через меню.  
-- **Светлый/Темный режим:** темы автоматически адаптируются к системным настройкам.  
-- **Сохранение состояния:** приложение запоминает текущий ввод, выполняемую операцию и выбранную тему при закрытии.  
-- **Научная нотация:** отображает очень большие или очень маленькие числа в формате экспоненты (например, 1.2345E7).  
-- **Повтор операции:** повторное нажатие на кнопку «=» повторяет последнюю выполненную операцию.
+- **Basic operations:** addition, subtraction, multiplication, and division.
+- **Extra functions:** square root (√), power (xʸ), and sign change (±).
+- **Adaptive interface:** automatically adjusts the button layout for portrait and landscape modes.
+- **Themes:** supports three color schemes (Blue, Orange, Pink) that can be switched from the menu.
+- **Light/Dark mode:** themes automatically adapt to system settings.
+- **State saving:** the app remembers the current input, active operation, and selected theme when closed.
+- **Scientific notation:** displays very large or very small numbers in exponential format (e.g., 1.2345E7).
+- **Repeat operation:** pressing "=" again repeats the last performed operation.
 
-## Используемые технологии
 
-- **Kotlin:** основной язык программирования.  
-- **Jetpack Compose:** современный UI-инструментарий для создания нативных интерфейсов Android.  
-- **ViewModel:** для управления логикой и состоянием калькулятора, независимого от жизненного цикла UI.  
-- **LiveData:** для передачи состояния (текущего ввода) из ViewModel в Composable-функции.  
-- **SharedPreferences:** для сохранения состояния калькулятора и выбранной темы между сессиями.
+## Technologies Used
+
+- **Kotlin:** main programming language.
+- **Jetpack Compose:** modern UI toolkit for building native Android interfaces.
+- **ViewModel:** manages calculator logic and state independently from the UI lifecycle.
+- **LiveData:** passes state (current input) from the ViewModel to Composable functions.
+- **SharedPreferences:** stores calculator state and selected theme between sessions.
