@@ -1,6 +1,8 @@
-# Калькулятор
+<img width="2560" height="1440" alt="1" src="https://github.com/user-attachments/assets/bb48221f-9514-4192-962b-6d2725382aaf" />
 
-<img width="1920" height="1080" alt="ааааа" src="https://github.com/user-attachments/assets/39430277-6b05-4693-91d6-7cdbb497abf0" />
+<img width="2560" height="1440" alt="2" src="https://github.com/user-attachments/assets/6b5392ee-571e-40ff-a76a-c7b0098455eb" />
+
+# Калькулятор
 
 Простой калькулятор для Android, созданный с использованием Kotlin и Jetpack Compose.
 
