@@ -1,19 +1,33 @@
-*.class
+# --- Системные файлы macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 
-*.jar
-*.war
-*.ear
-
-.idea/
+# --- IntelliJ / Android Studio ---
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/libraries/
+.idea/gradle.xml
 *.iml
 
-out/
+# --- Gradle ---
+# Папка со скомпилированным приложением
 build/
 
-*.log
-
-gradle.properties
-Local.properties
-
-gradle/
+# Локальный кэш Gradle
 .gradle/
+
+# --- Локальные свойства ---
+# КРИТИЧЕСКИ ВАЖНО! Содержит секретные ключи и пути.
+local.properties
+
+# --- Логи ---
+*.log
+captures.txt
+release.properties
